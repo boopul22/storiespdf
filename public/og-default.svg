@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#11224E"/>
+      <stop offset="100%" style="stop-color:#1a3a7c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg-gradient)"/>
+  <circle cx="1100" cy="100" r="200" fill="#F87B1B" opacity="0.1"/>
+  <circle cx="100" cy="530" r="150" fill="#D4AF37" opacity="0.1"/>
+  <text x="600" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#FFFFFF">TamilKathai</text>
+  <text x="600" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="#D4AF37">தமிழ் கதைகள்</text>
+  <text x="600" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#FFFFFF" opacity="0.7">சிறுவர் நீதி கதைகள்</text>
+  <rect x="500" y="460" width="200" height="4" rx="2" fill="#F87B1B"/>
+</svg>

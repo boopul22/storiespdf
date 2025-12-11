@@ -1,0 +1,170 @@
+---
+import "../styles/global.css";
+import {
+    SITE_TITLE,
+    SITE_DESCRIPTION,
+    SITE_URL,
+    SITE_AUTHOR,
+    SITE_LOCALE,
+    SITE_THEME_COLOR,
+} from "../consts";
+import Analytics from "@vercel/analytics/astro";
+import ThemeManager from "../components/ThemeManager.astro";
+
+interface Props {
+    title?: string;
+    description?: string;
+    image?: ImageMetadata | string;
+    article?: boolean;
+}
+
+const {
+    title = SITE_TITLE,
+    description = SITE_DESCRIPTION,
+    image,
+    article = false,
+} = Astro.props;
+
+const pageTitle = title === SITE_TITLE ? title : `${title} | ${SITE_TITLE}`;
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
+const ogImage = image
+    ? typeof image === "string"
+        ? image
+        : new URL(image.src, SITE_URL).toString()
+    : `${SITE_URL}/og-default.svg`;
+
+const schema = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "StoriesPDF",
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo.svg`,
+    description: SITE_DESCRIPTION,
+    sameAs: [
+        "https://www.facebook.com/storiespdf",
+        "https://twitter.com/storiespdf",
+    ],
+});
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <!-- Critical CSS Inline - Prevents render blocking -->
+        <style is:inline>
+            :root {
+                --color-bg: #eeeeee;
+                --color-primary: #11224e;
+                --color-accent: #f87b1b;
+                --color-secondary: #cbd99b;
+                --color-text-main: #11224e;
+                --color-text-muted: rgba(17, 34, 78, 0.6);
+                --color-border: rgba(17, 34, 78, 0.1);
+            }
+            :root.dark {
+                --color-bg: #1a1a1a;
+                --color-primary: #fff;
+                --color-text-main: #fff;
+                --color-text-muted: rgba(255, 255, 255, 0.6);
+                --color-border: rgba(255, 255, 255, 0.1);
+            }
+            body {
+                font-family: "Inter", sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: var(--color-bg);
+                color: var(--color-text-main);
+            }
+        </style>
+
+        <!-- Primary Meta Tags -->
+        <title>{pageTitle}</title>
+        <meta name="title" content={pageTitle} />
+        <meta name="description" content={description} />
+        <meta name="author" content={SITE_AUTHOR} />
+        <meta name="robots" content="index, follow" />
+        <meta
+            name="googlebot"
+            content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+        />
+        <link rel="canonical" href={canonicalURL} />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content={article ? "article" : "website"} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:locale" content={SITE_LOCALE} />
+        <meta property="og:site_name" content={SITE_TITLE} />
+
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={canonicalURL} />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
+
+        <!-- Favicon and Branding -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content={SITE_THEME_COLOR} />
+        <meta name="msapplication-TileColor" content={SITE_THEME_COLOR} />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
+        <meta name="apple-mobile-web-app-title" content={SITE_TITLE} />
+
+        <!-- Font Preload for faster loading -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+            media="print"
+            onload="this.media='all'"
+        />
+        <noscript>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+                rel="stylesheet"
+            />
+        </noscript>
+        <script type="application/ld+json" set:html={schema} />
+        <Analytics />
+        <slot name="head" />
+        <ThemeManager />
+    </head>
+    <body
+        class="bg-[var(--color-bg)] text-[var(--color-text-main)] antialiased selection:bg-[#F87B1B] selection:text-white transition-colors duration-300 overflow-x-hidden"
+    >
+        <slot />
+
+        <!-- Service Worker for R2 Image Caching -->
+        <script>
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", () => {
+                    navigator.serviceWorker
+                        .register("/sw.js")
+                        .then((registration) => {
+                            console.log("SW registered:", registration.scope);
+                        })
+                        .catch((error) => {
+                            console.log("SW registration failed:", error);
+                        });
+                });
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,162 @@
+---
+import Icon from "./Icon.astro";
+const today = new Date();
+---
+
+<!-- Footer matching Tamil Story design with dark mode support -->
+<footer
+	class="bg-[var(--color-bg)] border-t border-[var(--color-border)] pt-16 pb-8"
+>
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+			<div class="space-y-4">
+				<div class="flex items-center gap-2">
+					<img
+						src="/logo.svg"
+						alt="StoriesPDF Logo"
+						class="w-6 h-6 hover:scale-110 transition-transform duration-300"
+					/>
+					<span
+						class="font-semibold text-base tracking-tight text-[var(--color-text-main)]"
+						>StoriesPDF</span
+					>
+				</div>
+				<p
+					class="text-sm text-[var(--color-text-muted)] leading-relaxed"
+				>
+					Our mission is to bring moral values and life lessons to
+					children through captivating stories.
+				</p>
+			</div>
+			<div>
+				<h4
+					class="font-semibold text-[var(--color-text-main)] mb-4 text-sm"
+				>
+					Categories
+				</h4>
+				<ul class="space-y-3 text-sm text-[var(--color-text-muted)]">
+					<li>
+						<a
+							href="/blog"
+							class="hover:text-[var(--color-accent)] transition-colors"
+							>Moral Stories</a
+						>
+					</li>
+					<li>
+						<a
+							href="/blog"
+							class="hover:text-[var(--color-accent)] transition-colors"
+							>Animal Tales</a
+						>
+					</li>
+					<li>
+						<a
+							href="/blog"
+							class="hover:text-[var(--color-accent)] transition-colors"
+							>Classic Tales</a
+						>
+					</li>
+					<li>
+						<a
+							href="/blog"
+							class="hover:text-[var(--color-accent)] transition-colors"
+							>Folklore</a
+						>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h4
+					class="font-semibold text-[var(--color-text-main)] mb-4 text-sm"
+				>
+					Company
+				</h4>
+				<ul class="space-y-3 text-sm text-[var(--color-text-muted)]">
+					<li>
+						<a
+							href="/about"
+							class="hover:text-[var(--color-accent)] transition-colors"
+							>About Us</a
+						>
+					</li>
+					<li>
+						<a
+							href="/contact"
+							class="hover:text-[var(--color-accent)] transition-colors"
+							>Contact Us</a
+						>
+					</li>
+					<li>
+						<a
+							href="/terms-conditions"
+							class="hover:text-[var(--color-accent)] transition-colors"
+							>Terms & Conditions</a
+						>
+					</li>
+					<li>
+						<a
+							href="/privacy-policy"
+							class="hover:text-[var(--color-accent)] transition-colors"
+							>Privacy Policy</a
+						>
+					</li>
+					<li>
+						<a
+							href="/disclaimer"
+							class="hover:text-[var(--color-accent)] transition-colors"
+							>Disclaimer</a
+						>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<h4
+					class="font-semibold text-[var(--color-text-main)] mb-4 text-sm"
+				>
+					Follow Us
+				</h4>
+				<div class="flex gap-4">
+					<a
+						href="#"
+						class="w-8 h-8 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-text-main)] hover:bg-[var(--color-accent)] hover:text-white transition-all"
+						aria-label="Facebook"
+					>
+						<Icon name="facebook" size={16} />
+					</a>
+					<a
+						href="#"
+						class="w-8 h-8 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-text-main)] hover:bg-[var(--color-accent)] hover:text-white transition-all"
+						aria-label="Twitter"
+					>
+						<Icon name="twitter" size={16} />
+					</a>
+					<a
+						href="#"
+						class="w-8 h-8 rounded-full bg-[var(--color-primary)]/10 flex items-center justify-center text-[var(--color-text-main)] hover:bg-[var(--color-accent)] hover:text-white transition-all"
+						aria-label="Instagram"
+					>
+						<Icon name="instagram" size={16} />
+					</a>
+				</div>
+			</div>
+		</div>
+		<div
+			class="pt-8 border-t border-[var(--color-border)] flex flex-col sm:flex-row justify-between items-center gap-4"
+		>
+			<p class="text-xs text-[var(--color-text-muted)]">
+				© {today.getFullYear()} StoriesPDF. All rights reserved.
+			</p>
+			<div
+				class="flex items-center gap-2 text-xs text-[var(--color-text-muted)]"
+			>
+				<span>Made with</span>
+				<Icon
+					name="heart"
+					size={12}
+					class="text-[var(--color-accent)]"
+				/>
+				<span>for kids</span>
+			</div>
+		</div>
+	</div>
+</footer>

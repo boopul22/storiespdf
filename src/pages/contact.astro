@@ -1,0 +1,41 @@
+---
+import Layout from "../layouts/BlogPost.astro";
+const pageTitle = "Contact Us";
+const pageDescription = "Contact StoriesPDF - We'd love to hear from you.";
+const pubDate = new Date("August 08 2021");
+
+const contactEmail = "contact@storiespdf.com"; // Placeholder, as not explicitly found in consts.ts, using standard format or user should specific.
+// Actually, I should check consts.ts again, but it didn't have one. I'll use a generic one or ask user to update.
+// In the implementation plan I noted I'd use a placeholder.
+---
+
+<Layout title={pageTitle} description={pageDescription} pubDate={pubDate}>
+    <h2>Contact Us</h2>
+
+    <p>
+        If you have any questions about this Privacy Policy, the practices of
+        this site, or your dealings with this site, please contact us.
+    </p>
+
+    <p>
+        We value your feedback and suggestions. Whether you have a story
+        request, a suggestion for improvement, or just want to say hello, we are
+        here to listen.
+    </p>
+
+    <div
+        class="contact-info"
+        style="margin-top: 2rem; padding: 2rem; background-color: var(--color-bg-secondary); border-radius: 8px; border: 1px solid var(--color-border);"
+    >
+        <h3 style="margin-top: 0;">Email Us</h3>
+        <p>For all inquiries, please email us at:</p>
+        <p>
+            <a
+                href={`mailto:${contactEmail}`}
+                style="font-weight: bold; font-size: 1.2rem;">{contactEmail}</a
+            >
+        </p>
+
+        <p>We aim to respond to all emails within 24-48 hours.</p>
+    </div>
+</Layout>

@@ -1,0 +1,188 @@
+---
+import { SITE_TITLE } from "../consts";
+import Icon from "./Icon.astro";
+---
+
+<!-- Navigation matching Tamil Story design with dark mode support -->
+<nav
+	class="fixed top-0 w-full z-50 bg-[var(--color-bg)]/80 backdrop-blur-md border-b border-[var(--color-border)]"
+>
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="flex justify-between items-center h-16">
+			<!-- Logo -->
+			<a
+				href="/"
+				class="flex-shrink-0 flex items-center gap-2 cursor-pointer group"
+			>
+				<img
+					src="/logo.svg"
+					alt="StoriesPDF Logo"
+					class="w-8 h-8 group-hover:scale-110 transition-transform duration-300"
+				/>
+				<span
+					class="font-semibold text-lg tracking-tight text-[var(--color-text-main)]"
+					>StoriesPDF</span
+				>
+			</a>
+
+			<!-- Desktop Menu -->
+			<div class="hidden md:flex items-center space-x-8">
+				<a
+					href="/"
+					class="text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-accent)] transition-colors"
+					>Home</a
+				>
+				<a
+					href="/blog"
+					class="text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-accent)] transition-colors"
+					>Stories</a
+				>
+				<a
+					href="/about"
+					class="text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-accent)] transition-colors"
+					>About</a
+				>
+			</div>
+
+			<!-- Actions -->
+			<div class="flex items-center gap-4">
+				<button
+					class="p-2 text-[var(--color-text-main)] hover:bg-[var(--color-bg)] rounded-full transition-all"
+					aria-label="Search"
+				>
+					<Icon name="search" size={20} strokeWidth={1.5} />
+				</button>
+				<!-- Dark Mode Toggle -->
+				<button
+					id="theme-toggle"
+					class="p-2 text-[var(--color-text-main)] hover:bg-[var(--color-secondary)]/30 rounded-full transition-all"
+					aria-label="Toggle dark mode"
+				>
+					<Icon
+						name="sun"
+						size={20}
+						strokeWidth={1.5}
+						class="sun-icon"
+					/>
+					<Icon
+						name="moon"
+						size={20}
+						strokeWidth={1.5}
+						class="moon-icon hidden"
+					/>
+				</button>
+				<a
+					href="#subscribe"
+					class="hidden sm:flex px-4 py-2 bg-[var(--color-primary)] text-[var(--color-bg)] text-xs font-medium rounded-full hover:bg-[var(--color-accent)] transition-colors duration-300 items-center gap-2"
+				>
+					<span>Subscribe</span>
+					<Icon name="arrow-right" size={14} strokeWidth={1.5} />
+				</a>
+				<!-- Mobile Menu Button -->
+				<button
+					class="md:hidden p-2 text-[var(--color-text-main)]"
+					id="mobile-menu-btn"
+					aria-label="Toggle menu"
+					aria-expanded="false"
+				>
+					<Icon
+						name="menu"
+						size={24}
+						strokeWidth={1.5}
+						class="menu-icon"
+					/>
+					<Icon
+						name="x"
+						size={24}
+						strokeWidth={1.5}
+						class="close-icon hidden"
+					/>
+				</button>
+			</div>
+		</div>
+
+		<!-- Mobile Menu -->
+		<div
+			class="mobile-menu hidden md:hidden pb-4 overflow-hidden transition-all duration-300 ease-in-out max-h-0"
+			id="mobile-menu"
+		>
+			<div class="flex flex-col space-y-2 pt-2">
+				<a
+					href="/"
+					class="px-4 py-2 text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-accent)] hover:bg-[var(--color-bg)] rounded-lg transition-colors"
+					>Home</a
+				>
+				<a
+					href="/blog"
+					class="px-4 py-2 text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-accent)] hover:bg-[var(--color-bg)] rounded-lg transition-colors"
+					>Stories</a
+				>
+				<a
+					href="/about"
+					class="px-4 py-2 text-sm font-medium text-[var(--color-text-main)] hover:text-[var(--color-accent)] hover:bg-[var(--color-bg)] rounded-lg transition-colors"
+					>About</a
+				>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<script>
+	const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+	const mobileMenu = document.getElementById("mobile-menu");
+	const menuIcon = mobileMenuBtn?.querySelector(".menu-icon");
+	const closeIcon = mobileMenuBtn?.querySelector(".close-icon");
+
+	mobileMenuBtn?.addEventListener("click", () => {
+		const isOpen = mobileMenu?.classList.contains("max-h-0");
+
+		if (isOpen) {
+			mobileMenu?.classList.remove("max-h-0", "hidden");
+			mobileMenu?.classList.add("max-h-64");
+			menuIcon?.classList.add("hidden");
+			closeIcon?.classList.remove("hidden");
+			mobileMenuBtn?.setAttribute("aria-expanded", "true");
+		} else {
+			mobileMenu?.classList.add("max-h-0");
+			mobileMenu?.classList.remove("max-h-64");
+			menuIcon?.classList.remove("hidden");
+			closeIcon?.classList.add("hidden");
+			mobileMenuBtn?.setAttribute("aria-expanded", "false");
+			// Hide after animation
+			setTimeout(() => {
+				if (mobileMenu?.classList.contains("max-h-0")) {
+					mobileMenu?.classList.add("hidden");
+				}
+			}, 300);
+		}
+	});
+
+	// Theme Toggle Logic
+	const themeToggle = document.getElementById("theme-toggle");
+	const sunIcon = themeToggle?.querySelector(".sun-icon");
+	const moonIcon = themeToggle?.querySelector(".moon-icon");
+
+	function updateThemeIcon() {
+		const isDark = document.documentElement.classList.contains("dark");
+		if (isDark) {
+			sunIcon?.classList.add("hidden");
+			moonIcon?.classList.remove("hidden");
+		} else {
+			sunIcon?.classList.remove("hidden");
+			moonIcon?.classList.add("hidden");
+		}
+	}
+
+	// Initial icon state
+	updateThemeIcon();
+
+	// Listen for theme changes from ThemeManager
+	window.addEventListener("theme-change", updateThemeIcon);
+
+	// Toggle theme on click
+	themeToggle?.addEventListener("click", () => {
+		if (typeof window.toggleTheme === "function") {
+			window.toggleTheme();
+		}
+	});
+</script>

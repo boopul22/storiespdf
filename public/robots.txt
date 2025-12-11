@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://storiespdf.com/sitemap-index.xml

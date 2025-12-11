@@ -1,0 +1,58 @@
+---
+
+---
+
+<!-- 
+  ThemeManager: A centralized script to handle light/dark mode.
+  Placed in <head> to prevent FOUC.
+-->
+<script is:inline>
+    (function () {
+        // 1. Core Logic: specific preference > system preference
+        function getTheme() {
+            if (
+                typeof localStorage !== "undefined" &&
+                localStorage.getItem("theme")
+            ) {
+                return localStorage.getItem("theme");
+            }
+            // Default to light mode as requested
+            return "light";
+        }
+
+        // 2. Apply Theme
+        function setTheme(theme) {
+            if (theme === "dark") {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
+            }
+            window.localStorage.setItem("theme", theme);
+
+            // Dispatch a custom event so other components (like toggles) can update their UI
+            // regardless of where they are in the DOM or when they loaded.
+            window.dispatchEvent(
+                new CustomEvent("theme-change", { detail: { theme } }),
+            );
+        }
+
+        // 3. Initialize
+        setTheme(getTheme());
+
+        // 4. Expose Global API
+        window.toggleTheme = function () {
+            const current = getTheme();
+            const next = current === "dark" ? "light" : "dark";
+            setTheme(next);
+        };
+
+        // 5. Listen for System Changes (if no manual override)
+        window
+            .matchMedia("(prefers-color-scheme: dark)")
+            .addEventListener("change", (e) => {
+                if (!localStorage.getItem("theme")) {
+                    setTheme(e.matches ? "dark" : "light");
+                }
+            });
+    })();
+</script>

@@ -1,0 +1,128 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+    readingTime?: number;
+}
+
+const { readingTime } = Astro.props;
+---
+
+<div
+    class="reading-controls flex items-center justify-between p-4 bg-[var(--color-bg)]/50 backdrop-blur-sm rounded-xl border border-[var(--color-border)] mb-8"
+>
+    <!-- Reading Time -->
+    {
+        readingTime && (
+            <div class="flex items-center gap-2 text-sm text-[var(--color-text-muted)] font-medium">
+                <Icon name="clock" size={16} />
+                <span>Reading Time: {readingTime} min</span>
+            </div>
+        )
+    }
+
+    <!-- Controls -->
+    <div class="flex items-center gap-4">
+        <!-- Font Size -->
+        <div
+            class="flex items-center gap-1 bg-[var(--color-primary)]/5 rounded-lg p-1"
+        >
+            <button
+                id="decrease-font"
+                class="p-2 hover:bg-[var(--color-bg)] rounded-md transition-colors text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]"
+                aria-label="Decrease font size"
+            >
+                <Icon name="minus" size={14} />
+            </button>
+            <span
+                class="text-xs font-semibold text-[var(--color-text-muted)] px-1"
+                >A</span
+            >
+            <button
+                id="increase-font"
+                class="p-2 hover:bg-[var(--color-bg)] rounded-md transition-colors text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]"
+                aria-label="Increase font size"
+            >
+                <Icon name="plus" size={14} />
+            </button>
+        </div>
+
+        <!-- Night Mode -->
+        <button
+            id="theme-toggle"
+            class="p-2 rounded-lg bg-[var(--color-primary)]/5 hover:bg-[var(--color-primary)] text-[var(--color-text-main)] hover:text-[var(--color-bg)] transition-all"
+            aria-label="Toggle dark mode"
+        >
+            <Icon name="moon" size={18} class="dark-icon hidden" />
+            <Icon name="sun" size={18} class="light-icon" />
+        </button>
+    </div>
+</div>
+
+<script>
+    // Font Size Control
+    const article = document.querySelector("article");
+    const increaseBtn = document.getElementById("increase-font");
+    const decreaseBtn = document.getElementById("decrease-font");
+
+    let currentSize = 100; // Percentage
+
+    function setFontSize(size: number) {
+        if (article) {
+            article.style.fontSize = `${size}%`;
+            localStorage.setItem("user-font-size", size.toString());
+        }
+    }
+
+    // Load saved font size
+    const savedSize = localStorage.getItem("user-font-size");
+    if (savedSize) {
+        currentSize = parseInt(savedSize);
+        setFontSize(currentSize);
+    }
+
+    increaseBtn?.addEventListener("click", () => {
+        if (currentSize < 130) {
+            currentSize += 10;
+            setFontSize(currentSize);
+        }
+    });
+
+    decreaseBtn?.addEventListener("click", () => {
+        if (currentSize > 90) {
+            currentSize -= 10;
+            setFontSize(currentSize);
+        }
+    });
+
+    // Theme Toggle
+    const themeToggle = document.getElementById("theme-toggle");
+    const lightIcon = themeToggle?.querySelector(".light-icon");
+    const darkIcon = themeToggle?.querySelector(".dark-icon");
+
+    function updateIcons(isDark: boolean) {
+        if (isDark) {
+            lightIcon?.classList.add("hidden");
+            darkIcon?.classList.remove("hidden");
+        } else {
+            lightIcon?.classList.remove("hidden");
+            darkIcon?.classList.add("hidden");
+        }
+    }
+
+    // Listen for global theme changes from ThemeManager
+    window.addEventListener("theme-change", ((e: CustomEvent) => {
+        updateIcons(e.detail.theme === "dark");
+    }) as EventListener);
+
+    // Initialize state
+    const currentTheme = document.documentElement.classList.contains("dark")
+        ? "dark"
+        : "light";
+    updateIcons(currentTheme === "dark");
+
+    themeToggle?.addEventListener("click", () => {
+        // @ts-ignore
+        window.toggleTheme?.();
+    });
+</script>
