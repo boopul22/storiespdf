@@ -5,6 +5,7 @@
 <!-- 
   ThemeManager: A centralized script to handle light/dark mode.
   Placed in <head> to prevent FOUC.
+  Handles all toggle buttons via event delegation.
 -->
 <script is:inline>
     (function () {
@@ -16,37 +17,63 @@
             ) {
                 return localStorage.getItem("theme");
             }
-            // Default to light mode as requested
             return "light";
         }
 
-        // 2. Apply Theme
+        // 2. Apply Theme & Update All Toggle Icons
         function setTheme(theme) {
-            if (theme === "dark") {
+            const isDark = theme === "dark";
+            if (isDark) {
                 document.documentElement.classList.add("dark");
             } else {
                 document.documentElement.classList.remove("dark");
             }
             window.localStorage.setItem("theme", theme);
 
-            // Dispatch a custom event so other components (like toggles) can update their UI
-            // regardless of where they are in the DOM or when they loaded.
+            // Update ALL toggle button icons across the page
+            updateAllToggleIcons(isDark);
+
+            // Dispatch event for any other components
             window.dispatchEvent(
                 new CustomEvent("theme-change", { detail: { theme } }),
             );
         }
 
-        // 3. Initialize
+        // 3. Update icons on all theme toggle buttons
+        function updateAllToggleIcons(isDark) {
+            document.querySelectorAll("[data-theme-toggle]").forEach((btn) => {
+                const sunIcon = btn.querySelector(".sun-icon");
+                const moonIcon = btn.querySelector(".moon-icon");
+                if (sunIcon && moonIcon) {
+                    if (isDark) {
+                        sunIcon.classList.add("hidden");
+                        moonIcon.classList.remove("hidden");
+                    } else {
+                        sunIcon.classList.remove("hidden");
+                        moonIcon.classList.add("hidden");
+                    }
+                }
+            });
+        }
+
+        // 4. Initialize theme
         setTheme(getTheme());
 
-        // 4. Expose Global API
+        // 5. Expose Global API
         window.toggleTheme = function () {
-            const current = getTheme();
-            const next = current === "dark" ? "light" : "dark";
+            const next = getTheme() === "dark" ? "light" : "dark";
             setTheme(next);
         };
 
-        // 5. Listen for System Changes (if no manual override)
+        // 6. Global click handler for all toggle buttons (event delegation)
+        document.addEventListener("click", (e) => {
+            const toggleBtn = e.target.closest("[data-theme-toggle]");
+            if (toggleBtn) {
+                window.toggleTheme();
+            }
+        });
+
+        // 7. Listen for System Changes (if no manual override)
         window
             .matchMedia("(prefers-color-scheme: dark)")
             .addEventListener("change", (e) => {
@@ -54,5 +81,10 @@
                     setTheme(e.matches ? "dark" : "light");
                 }
             });
+
+        // 8. Re-update icons when DOM changes (for Astro view transitions)
+        document.addEventListener("astro:page-load", () => {
+            updateAllToggleIcons(getTheme() === "dark");
+        });
     })();
 </script>

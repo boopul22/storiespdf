@@ -47,14 +47,14 @@ const { readingTime } = Astro.props;
             </button>
         </div>
 
-        <!-- Night Mode -->
+        <!-- Night Mode - handled by ThemeManager via data-theme-toggle -->
         <button
-            id="theme-toggle"
+            data-theme-toggle
             class="p-2 rounded-lg bg-[var(--color-primary)]/5 hover:bg-[var(--color-primary)] text-[var(--color-text-main)] hover:text-[var(--color-bg)] transition-all"
             aria-label="Toggle dark mode"
         >
-            <Icon name="moon" size={18} class="dark-icon hidden" />
-            <Icon name="sun" size={18} class="light-icon" />
+            <Icon name="sun" size={18} class="sun-icon" />
+            <Icon name="moon" size={18} class="moon-icon hidden" />
         </button>
     </div>
 </div>
@@ -95,34 +95,5 @@ const { readingTime } = Astro.props;
         }
     });
 
-    // Theme Toggle
-    const themeToggle = document.getElementById("theme-toggle");
-    const lightIcon = themeToggle?.querySelector(".light-icon");
-    const darkIcon = themeToggle?.querySelector(".dark-icon");
-
-    function updateIcons(isDark: boolean) {
-        if (isDark) {
-            lightIcon?.classList.add("hidden");
-            darkIcon?.classList.remove("hidden");
-        } else {
-            lightIcon?.classList.remove("hidden");
-            darkIcon?.classList.add("hidden");
-        }
-    }
-
-    // Listen for global theme changes from ThemeManager
-    window.addEventListener("theme-change", ((e: CustomEvent) => {
-        updateIcons(e.detail.theme === "dark");
-    }) as EventListener);
-
-    // Initialize state
-    const currentTheme = document.documentElement.classList.contains("dark")
-        ? "dark"
-        : "light";
-    updateIcons(currentTheme === "dark");
-
-    themeToggle?.addEventListener("click", () => {
-        // @ts-ignore
-        window.toggleTheme?.();
-    });
+    // Theme toggle is now handled entirely by ThemeManager via data-theme-toggle attribute
 </script>

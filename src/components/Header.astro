@@ -55,6 +55,7 @@ import Icon from "./Icon.astro";
 				<!-- Dark Mode Toggle -->
 				<button
 					id="theme-toggle"
+					data-theme-toggle
 					class="p-2 text-[var(--color-text-main)] hover:bg-[var(--color-secondary)]/30 rounded-full transition-all"
 					aria-label="Toggle dark mode"
 				>
@@ -157,32 +158,5 @@ import Icon from "./Icon.astro";
 		}
 	});
 
-	// Theme Toggle Logic
-	const themeToggle = document.getElementById("theme-toggle");
-	const sunIcon = themeToggle?.querySelector(".sun-icon");
-	const moonIcon = themeToggle?.querySelector(".moon-icon");
-
-	function updateThemeIcon() {
-		const isDark = document.documentElement.classList.contains("dark");
-		if (isDark) {
-			sunIcon?.classList.add("hidden");
-			moonIcon?.classList.remove("hidden");
-		} else {
-			sunIcon?.classList.remove("hidden");
-			moonIcon?.classList.add("hidden");
-		}
-	}
-
-	// Initial icon state
-	updateThemeIcon();
-
-	// Listen for theme changes from ThemeManager
-	window.addEventListener("theme-change", updateThemeIcon);
-
-	// Toggle theme on click
-	themeToggle?.addEventListener("click", () => {
-		if (typeof window.toggleTheme === "function") {
-			window.toggleTheme();
-		}
-	});
+	// Theme toggle is now handled entirely by ThemeManager via data-theme-toggle attribute
 </script>
