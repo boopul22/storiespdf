@@ -1,6 +1,6 @@
 ---
-title: 'The Big Cheese's Extravagant Christmas Competition'
-description: 'The self-proclaimed 'Big Cheese,' a competitive showoff, views the holiday as a contest and throws the most extravagant Christmas party imaginable to prove he is the best host. However, his obsessive quest for perfection is threatened when a chaotic laundry accident jeopardizes his crucial party hosting outfit.'
+title: "The Big Cheese's Extravagant Christmas Competition"
+description: "The self-proclaimed 'Big Cheese,' a competitive showoff, views the holiday as a contest and throws the most extravagant Christmas party imaginable to prove he is the best host. However, his obsessive quest for perfection is threatened when a chaotic laundry accident jeopardizes his crucial party hosting outfit."
 pubDate: 'Dec 11 2025'
 heroImage: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/generated_images/blog_hero_1765456191_The_Big_Cheeses_Extr.webp'
 ---

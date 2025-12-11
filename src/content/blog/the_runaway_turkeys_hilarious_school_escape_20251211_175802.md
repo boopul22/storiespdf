@@ -1,5 +1,5 @@
 ---
-title: 'The Runaway Turkey's Hilarious School Escape'
+title: "The Runaway Turkey's Hilarious School Escape"
 description: 'Terrified of being in the Thanksgiving play, a turkey escapes his pen, resulting in a frantic school-wide chase until he accidentally runs onto the stage and becomes the star mascot.'
 pubDate: 'Dec 11 2025'
 heroImage: 'https://pub-141831e61e69445289222976a15b6fb3.r2.dev/generated_images/blog_hero_1765456035_The_Runaway_Turkeys_.webp'
