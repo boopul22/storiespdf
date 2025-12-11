@@ -11,7 +11,25 @@ const blog = defineCollection({
 			titleEn: z.string().optional(),
 			description: z.string(),
 			slug: z.string().optional(),
-			category: z.enum(['neethi', 'pei', 'kadhal', 'famous', 'motivation']).optional(),
+			// Content categorization system
+			category: z.enum([
+				// Children's categories
+				'children-bedtime',
+				'children-adventure',
+				'children-moral',
+				'children-fairy',
+				// General audience categories
+				'general-inspirational',
+				'general-humor',
+				'general-folklore',
+				// Adult categories
+				'adult-drama',
+				'adult-thriller',
+				'adult-romance'
+			]).optional(),
+			audience: z.enum(['children', 'general', 'adult']).optional(),
+			tags: z.array(z.string()).optional(),
+			ageRange: z.string().optional(),
 			moral: z.string().optional(),
 			readingTime: z.number().optional(),
 			genre: z.string().optional(),

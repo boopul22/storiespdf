@@ -9,36 +9,102 @@ import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
     const categories = [
-        { slug: "neethi", title: "Moral Stories", titleEn: "Moral Stories" },
-        { slug: "pei", title: "Horror Stories", titleEn: "Horror Stories" },
-        { slug: "kadhal", title: "Love Stories", titleEn: "Love Stories" },
+        // Children's categories
         {
-            slug: "famous",
-            title: "Famous Stories",
-            titleEn: "Famous Stories",
+            slug: "children-bedtime",
+            title: "Bedtime Stories",
+            audience: "children",
+            icon: "moon",
+            color: "purple",
         },
         {
-            slug: "motivation",
-            title: "Motivational Stories",
-            titleEn: "Motivational Stories",
+            slug: "children-adventure",
+            title: "Kids Adventures",
+            audience: "children",
+            icon: "compass",
+            color: "green",
+        },
+        {
+            slug: "children-moral",
+            title: "Moral Tales",
+            audience: "children",
+            icon: "heart",
+            color: "pink",
+        },
+        {
+            slug: "children-fairy",
+            title: "Fairy Tales",
+            audience: "children",
+            icon: "sparkles",
+            color: "yellow",
+        },
+        // General audience categories
+        {
+            slug: "general-inspirational",
+            title: "Inspirational",
+            audience: "general",
+            icon: "sun",
+            color: "orange",
+        },
+        {
+            slug: "general-humor",
+            title: "Humor & Comedy",
+            audience: "general",
+            icon: "smile",
+            color: "teal",
+        },
+        {
+            slug: "general-folklore",
+            title: "Folklore & Culture",
+            audience: "general",
+            icon: "globe",
+            color: "indigo",
+        },
+        // Adult categories
+        {
+            slug: "adult-drama",
+            title: "Drama",
+            audience: "adult",
+            icon: "theater",
+            color: "red",
+        },
+        {
+            slug: "adult-thriller",
+            title: "Thriller & Mystery",
+            audience: "adult",
+            icon: "search",
+            color: "slate",
+        },
+        {
+            slug: "adult-romance",
+            title: "Romance",
+            audience: "adult",
+            icon: "heart",
+            color: "rose",
         },
     ];
 
-    return categories.map(({ slug, title, titleEn }) => ({
+    return categories.map(({ slug, title, audience, icon, color }) => ({
         params: { category: slug },
-        props: { categoryName: title, categoryNameEn: titleEn },
+        props: { categoryName: title, audience, icon, color },
     }));
 }
 
 const { category } = Astro.params;
-const { categoryName, categoryNameEn } = Astro.props;
+const { categoryName, audience, icon, color } = Astro.props;
 
 const posts = (await getCollection("blog"))
     .filter((post) => post.data.category === category)
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const title = `${categoryName} - ${categoryNameEn} | ${SITE_TITLE}`;
-const description = `Read the best ${categoryNameEn} collection.`;
+const audienceLabels = {
+    children: "For Kids",
+    general: "All Ages",
+    adult: "For Adults",
+};
+
+const title = `${categoryName} Stories | ${SITE_TITLE}`;
+const description = `Read the best ${categoryName} stories. Perfect ${audienceLabels[audience as keyof typeof audienceLabels]} reading collection.`;
 
 const collectionSchema = JSON.stringify({
     "@context": "https://schema.org",
