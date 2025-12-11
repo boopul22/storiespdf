@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /drafts/
 
 Sitemap: https://storiespdf.com/sitemap-index.xml
+Sitemap: https://storiespdf.com/image-sitemap.xml

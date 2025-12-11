@@ -3,87 +3,12 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import { categories } from "../consts/categories";
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
-    const categories = [
-        // Children's categories
-        {
-            slug: "children-bedtime",
-            title: "Bedtime Stories",
-            audience: "children",
-            icon: "moon",
-            color: "purple",
-        },
-        {
-            slug: "children-adventure",
-            title: "Kids Adventures",
-            audience: "children",
-            icon: "compass",
-            color: "green",
-        },
-        {
-            slug: "children-moral",
-            title: "Moral Tales",
-            audience: "children",
-            icon: "heart",
-            color: "pink",
-        },
-        {
-            slug: "children-fairy",
-            title: "Fairy Tales",
-            audience: "children",
-            icon: "sparkles",
-            color: "yellow",
-        },
-        // General audience categories
-        {
-            slug: "general-inspirational",
-            title: "Inspirational",
-            audience: "general",
-            icon: "sun",
-            color: "orange",
-        },
-        {
-            slug: "general-humor",
-            title: "Humor & Comedy",
-            audience: "general",
-            icon: "smile",
-            color: "teal",
-        },
-        {
-            slug: "general-folklore",
-            title: "Folklore & Culture",
-            audience: "general",
-            icon: "globe",
-            color: "indigo",
-        },
-        // Adult categories
-        {
-            slug: "adult-drama",
-            title: "Drama",
-            audience: "adult",
-            icon: "theater",
-            color: "red",
-        },
-        {
-            slug: "adult-thriller",
-            title: "Thriller & Mystery",
-            audience: "adult",
-            icon: "search",
-            color: "slate",
-        },
-        {
-            slug: "adult-romance",
-            title: "Romance",
-            audience: "adult",
-            icon: "heart",
-            color: "rose",
-        },
-    ];
-
     return categories.map(({ slug, title, audience, icon, color }) => ({
         params: { category: slug },
         props: { categoryName: title, audience, icon, color },
@@ -136,6 +61,18 @@ const collectionSchema = JSON.stringify({
             </h1>
 
             <div class="h-1 w-24 bg-[#F87B1B] mx-auto mt-6 rounded-full"></div>
+
+            <a
+                href={`/rss/${category}.xml`}
+                class="inline-flex items-center gap-2 mt-6 text-[#11224E]/60 hover:text-[#F87B1B] transition-colors text-sm font-medium"
+            >
+                <span
+                    class="iconify"
+                    data-icon="lucide:rss"
+                    data-width="16"
+                    data-height="16"></span>
+                Subscribe to {categoryName}
+            </a>
         </div>
 
         {

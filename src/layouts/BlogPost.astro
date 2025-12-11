@@ -55,6 +55,11 @@ const articleSchema = JSON.stringify({
 	dateModified: (updatedDate || pubDate).toISOString(),
 });
 
+import { categories } from "../consts/categories";
+
+// Check if category exists in our defined list to avoid 404 links
+const isValidCategory = category && categories.some((c) => c.slug === category);
+
 const breadcrumbSchema = JSON.stringify({
 	"@context": "https://schema.org",
 	"@type": "BreadcrumbList",
@@ -71,7 +76,7 @@ const breadcrumbSchema = JSON.stringify({
 			name: "Stories",
 			item: `${SITE_URL}/blog`,
 		},
-		...(category
+		...(isValidCategory
 			? [
 					{
 						"@type": "ListItem",

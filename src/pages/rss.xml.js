@@ -14,6 +14,12 @@ export async function GET(context) {
 			...post.data,
 			link: `/blog/${post.id}/`,
 			pubDate: post.data.pubDate,
+			enclosure: post.data.heroImage ? {
+				url: new URL(post.data.heroImage, context.site).toString(),
+				length: 0,
+				type: 'image/jpeg'
+			} : undefined,
 		})),
+		customData: `<language>en-us</language>`,
 	});
 }

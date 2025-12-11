@@ -12,21 +12,8 @@ const blog = defineCollection({
 			description: z.string(),
 			slug: z.string().optional(),
 			// Content categorization system
-			category: z.enum([
-				// Children's categories
-				'children-bedtime',
-				'children-adventure',
-				'children-moral',
-				'children-fairy',
-				// General audience categories
-				'general-inspirational',
-				'general-humor',
-				'general-folklore',
-				// Adult categories
-				'adult-drama',
-				'adult-thriller',
-				'adult-romance'
-			]).optional(),
+			// Content categorization system
+			category: z.string().optional(),
 			audience: z.enum(['children', 'general', 'adult']).optional(),
 			tags: z.array(z.string()).optional(),
 			ageRange: z.string().optional(),
