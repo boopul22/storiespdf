@@ -1,7 +1,10 @@
+# Allow all crawlers to access the site
 User-agent: *
-Allow: /
+
+# Block specific directories
 Disallow: /admin/
 Disallow: /drafts/
 
+# Sitemaps
 Sitemap: https://storiespdf.com/sitemap-index.xml
 Sitemap: https://storiespdf.com/image-sitemap.xml
